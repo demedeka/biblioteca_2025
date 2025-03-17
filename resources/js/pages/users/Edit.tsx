@@ -18,13 +18,15 @@ export default function EditUser({ user, page, perPage }: EditUserProps) {
 
   return (
     <UserLayout title={t("ui.users.edit")}>
-      <div className="p-6">
-        <div className="max-w-xl">
-          <UserForm
-            initialData={user}
-            page={page}
-            perPage={perPage}
-          />
+      <div className="flex justify-center items-start min-h-screen">
+        <div className="p-6">
+          <div className="max-w-xl">
+            <UserForm
+              initialData={user}
+              page={page}
+              perPage={perPage}
+            />
+          </div>
         </div>
       </div>
     </UserLayout>

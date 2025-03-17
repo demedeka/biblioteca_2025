@@ -7,9 +7,11 @@ export default function CreateUser() {
 
   return (
     <UserLayout title={t("ui.users.create")}>
-      <div className="p-6">
-        <div className="max-w-xl">
-          <UserForm />
+      <div className="flex justify-center items-start min-h-screen">
+        <div className="p-6">
+          <div className="max-w-xl">
+            <UserForm />
+          </div>
         </div>
       </div>
     </UserLayout>
