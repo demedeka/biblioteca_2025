@@ -9,9 +9,10 @@ import { useForm } from "@tanstack/react-form";
 import type { AnyFieldApi } from "@tanstack/react-form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { User, Mail, Lock, X, Save } from "lucide-react"; // Import icons from lucide-react
+import { User, Mail, Lock, X, Save, Shield, Users, Box, PenBox, PackageOpen, FileText, Settings } from "lucide-react"; // Import icons from lucide-react
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { UI } from "react-day-picker";
 
 
 interface UserFormProps {
@@ -26,6 +27,10 @@ interface UserFormProps {
 
 // Field error display component
 function FieldInfo({ field }: { field: AnyFieldApi }) {
+    function t(arg0: string): import("react").ReactNode {
+        throw new Error("Function not implemented.");
+    }
+
     return (
         <>
             {field.state.meta.isTouched && field.state.meta.errors.length ? (
@@ -34,7 +39,7 @@ function FieldInfo({ field }: { field: AnyFieldApi }) {
                 </p>
             ) : null}
             {field.state.meta.isValidating ? (
-                <p className="mt-1 text-sm text-muted-foreground">Validando...</p>
+                <p className="mt-1 text-sm text-muted-foreground">{t("ui.create.validating")}</p>
             ) : null}
         </>
     );
@@ -98,15 +103,23 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
         <div>
             <form onSubmit={handleSubmit} className="space-y-4" noValidate>
                 <Tabs defaultValue="account" className="w-[800px]">
-                    <TabsList className="grid w-full grid-cols-2">
-                        <TabsTrigger value="account">Información Básica</TabsTrigger>
-                        <TabsTrigger value="password">Roles y Permisos</TabsTrigger>
-                    </TabsList>
+                    <div>
+                        <h1 className="text-2xl font-bold flex items-center">
+                            <User className="mr-2 text-blue-500" />
+                            {t("ui.create.create_new_user_text")}
+                        </h1>
+                        <h3 className="mt-1 text-sm text-muted-foreground">
+                        {t("ui.create.header3")}
+                        </h3>
+                    </div>
+                    <div>
+                        <TabsList className="grid w-full grid-cols-2">
+                            <TabsTrigger value="account">{t("ui.create.basic_information")}</TabsTrigger>
+                            <TabsTrigger value="password">{t("ui.create.roles_and_permissions")}</TabsTrigger>
+                        </TabsList>
+                    </div>
                     <TabsContent value="account">
                         <Card>
-                            <CardHeader>
-                                <CardTitle>Crear Nuevo Usuario</CardTitle>
-                            </CardHeader>
                             <CardContent className="space-y-2">
                                 {/* Name field */}
                                 <div>
@@ -127,7 +140,7 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
                                             <>
                                                 <Label htmlFor={field.name} className="flex items-center">
                                                     <User className="mr-2" />
-                                                    Nombre
+                                                    {t("ui.create.name")}
                                                 </Label>
                                                 <div className="relative">
                                                     <Input
@@ -136,7 +149,7 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
                                                         value={field.state.value}
                                                         onChange={(e) => field.handleChange(e.target.value)}
                                                         onBlur={field.handleBlur}
-                                                        placeholder="Nombre completo del usuario"
+                                                        placeholder={t("ui.create.fullNameUser_ph")}
                                                         disabled={form.state.isSubmitting}
                                                         required={false}
                                                         autoComplete="off"
@@ -167,7 +180,7 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
                                             <>
                                                 <Label htmlFor={field.name} className="flex items-center">
                                                     <Mail className="mr-2" />
-                                                    Email
+                                                    {t("ui.create.email")}
                                                 </Label>
                                                 <div className="relative">
                                                     <Input
@@ -177,7 +190,7 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
                                                         value={field.state.value}
                                                         onChange={(e) => field.handleChange(e.target.value)}
                                                         onBlur={field.handleBlur}
-                                                        placeholder="correo@ejemplo.com"
+                                                        placeholder={t("ui.create.emailUser_ph")}
                                                         disabled={form.state.isSubmitting}
                                                         required={false}
                                                         autoComplete="off"
@@ -209,8 +222,8 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
                                                 <Label htmlFor={field.name} className="flex items-center">
                                                     <Lock className="mr-2" />
                                                     {initialData
-                                                        ? "Contraseña (opcional)"
-                                                        : "Contraseña"}
+                                                        ? t("ui.create.optional_password")
+                                                        : t("ui.create.password")}
                                                 </Label>
                                                 <div className="relative">
                                                     <Input
@@ -220,7 +233,7 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
                                                         value={field.state.value}
                                                         onChange={(e) => field.handleChange(e.target.value)}
                                                         onBlur={field.handleBlur}
-                                                        placeholder="Contraseña segura"
+                                                        placeholder={t("ui.create.passwordUser_ph")}
                                                         disabled={form.state.isSubmitting}
                                                         autoComplete="off"
                                                         required={false}
@@ -228,7 +241,7 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
                                                 </div>
                                                 <FieldInfo field={field} />
                                                 <p className="mt-1 text-sm text-muted-foreground">
-                                                    La contraseña debe tener al menos 8 caracteres, incluyendo letras y números
+                                                   {t("ui.create.password_requirements")}
                                                 </p>
                                             </>
                                         )}
@@ -253,7 +266,7 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
                                             disabled={form.state.isSubmitting}
                                         >
                                             <X className="mr-2" />
-                                            Cancelar
+                                            {t("ui.create.cancel_button")}
                                         </Button>
                                     </div>
 
@@ -262,7 +275,7 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
                                             <div>
                                                 <Button type="submit" disabled={!canSubmit} className="bg-blue-500 text-white">
                                                     <Save className="mr-2" />
-                                                    {isSubmitting ? "Guardando..." : initialData ? "Actualizar" : "Guardar"}
+                                                    {isSubmitting ? t("ui.create.saving") : initialData ? t("ui.create.save_button") : t("ui.create.save_button")}
                                                 </Button>
                                             </div>
                                         )}
@@ -274,40 +287,47 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
                     </TabsContent>
                     <TabsContent value="password">
                         <Card>
-                            <CardHeader>
-                                <CardTitle>Roles y Permisos</CardTitle>
-                            </CardHeader>
                             <CardContent className="space-y-4">
                                 {/* Selección de Rol */}
                                 <div className="space-y-1">
-                                    <Label className="font-semibold">Rol Principal</Label>
+                                    <Label className="font-semibold, flex items-center">
+                                        <Shield className="mr-2" />
+                                        {t("ui.roles_and_permissions.label_Principal_Role")}
+                                    </Label>
                                     <Select>
                                         <SelectTrigger>
-                                            <SelectValue placeholder="Selecciona un rol" />
+                                            <SelectValue placeholder={t("ui.roles_and_permissions.select_role")} />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="admin">Administrador</SelectItem>
-                                            <SelectItem value="editor">Editor</SelectItem>
-                                            <SelectItem value="usuario">Usuario</SelectItem>
+                                            <SelectItem value="admin">{t("ui.create.roles.administrator")}</SelectItem>
+                                            <SelectItem value="visualizador">{t("ui.create.roles.visualizer")}</SelectItem>
+                                            <SelectItem value="usuario">{t("ui.create.roles.user")}</SelectItem>
                                         </SelectContent>
                                     </Select>
                                     <p className="text-sm text-muted-foreground">
-                                        El rol determina el nivel de acceso general del usuario.
+                                        {t("ui.create.role_description")}
+                                    </p>
+                                    <br />
+                                    <hr />
+                                    <p className=" font-semibold flex items-center mt-7">
+                                        <Shield className="mr-2 text-blue-500" />
+                                        {t("ui.create.specific_permissions")}
                                     </p>
                                 </div>
-
                                 {/* Sección de Permisos */}
                                 <div className="grid grid-cols-2 gap-4">
                                     {/* Usuarios */}
-                                    <Card>
+                                    <Card className="bg-gray-100">
                                         <CardHeader>
-                                            <CardTitle className="text-sm font-semibold">Usuarios</CardTitle>
+                                            <CardTitle className="text-sm font-semibold flex items-center">
+                                            <Users className="mr-2 text-blue-500" />
+                                                {t("ui.roles_and_permissions.users_map")}</CardTitle>
                                         </CardHeader>
                                         <CardContent className="space-y-2">
-                                            {["Ver usuarios", "Crear usuarios", "Editar usuarios", "Eliminar usuarios"].map(
+                                            {[t("ui.roles_and_permissions.users_crud.read"), t("ui.roles_and_permissions.users_crud.create"), t("ui.roles_and_permissions.users_crud.update"), t("ui.roles_and_permissions.users_crud.delete")].map(
                                                 (permiso, index) => (
                                                     <div key={index} className="flex items-center space-x-2">
-                                                        <Checkbox id={`usuarios-${index}`} />
+                                                        <Checkbox id={`usuarios-${index}`} className="border-blue-500"/>
                                                         <Label htmlFor={`usuarios-${index}`} className="text-sm">
                                                             {permiso}
                                                         </Label>
@@ -318,15 +338,17 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
                                     </Card>
 
                                     {/* Productos */}
-                                    <Card>
+                                    <Card className="bg-gray-100">
                                         <CardHeader>
-                                            <CardTitle className="text-sm font-semibold">Productos</CardTitle>
+                                        <CardTitle className="text-sm font-semibold flex items-center">
+                                        <PackageOpen className="mr-2 text-blue-500" />
+                                                {t("ui.roles_and_permissions.products_map")}</CardTitle>
                                         </CardHeader>
                                         <CardContent className="space-y-2">
-                                            {["Ver productos", "Crear productos", "Editar productos", "Eliminar productos"].map(
+                                            {[t("ui.roles_and_permissions.crud.read"), t("ui.roles_and_permissions.crud.create"), t("ui.roles_and_permissions.crud.update"), t("ui.roles_and_permissions.crud.delete")].map(
                                                 (permiso, index) => (
                                                     <div key={index} className="flex items-center space-x-2">
-                                                        <Checkbox id={`productos-${index}`} />
+                                                        <Checkbox id={`productos-${index}`} className="border-blue-500"/>
                                                         <Label htmlFor={`productos-${index}`} className="text-sm">
                                                             {permiso}
                                                         </Label>
@@ -337,14 +359,16 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
                                     </Card>
 
                                     {/* Reportes */}
-                                    <Card>
+                                    <Card className="bg-gray-100">
                                         <CardHeader>
-                                            <CardTitle className="text-sm font-semibold">Reportes</CardTitle>
+                                        <CardTitle className="text-sm font-semibold flex items-center">
+                                        <FileText className="mr-2 text-blue-500"/>
+                                            {t("ui.roles_and_permissions.reports_map")}</CardTitle>
                                         </CardHeader>
                                         <CardContent className="space-y-2">
-                                            {["Ver reportes", "Exportar reportes", "Imprimir reportes"].map((permiso, index) => (
+                                            {[t("ui.roles_and_permissions.report_checkboxs.view_reports"), t("ui.roles_and_permissions.report_checkboxs.export_reports"), t("ui.roles_and_permissions.report_checkboxs.print_reports")].map((permiso, index) => (
                                                 <div key={index} className="flex items-center space-x-2">
-                                                    <Checkbox id={`reportes-${index}`} />
+                                                    <Checkbox id={`reportes-${index}`} className="border-blue-500" />
                                                     <Label htmlFor={`reportes-${index}`} className="text-sm">
                                                         {permiso}
                                                     </Label>
@@ -354,14 +378,16 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
                                     </Card>
 
                                     {/* Configuración */}
-                                    <Card>
+                                    <Card className="bg-gray-100">
                                         <CardHeader>
-                                            <CardTitle className="text-sm font-semibold">Configuración</CardTitle>
+                                        <CardTitle className="text-sm font-semibold flex items-center">
+                                        <Settings className="mr-2 text-blue-500"/>
+                                                {t("ui.roles_and_permissions.config_map")}</CardTitle>
                                         </CardHeader>
                                         <CardContent className="space-y-2">
-                                            {["Acceso a configuración", "Modificar configuración"].map((permiso, index) => (
+                                            {[t("ui.roles_and_permissions.config_checkboxs.config_access"), t("ui.roles_and_permissions.config_checkboxs.config_modify")].map((permiso, index) => (
                                                 <div key={index} className="flex items-center space-x-2">
-                                                    <Checkbox id={`configuracion-${index}`} />
+                                                    <Checkbox id={`configuracion-${index}`} className="border-blue-500" />
                                                     <Label htmlFor={`configuracion-${index}`} className="text-sm">
                                                         {permiso}
                                                     </Label>
@@ -370,6 +396,7 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
                                         </CardContent>
                                     </Card>
                                 </div>
+                                <hr />
                                 {/* Form buttons */}
                                 <div className="flex justify-between">
                                     <div>
@@ -389,7 +416,7 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
                                             disabled={form.state.isSubmitting}
                                         >
                                             <X className="mr-2" />
-                                            Cancelar
+                                            {t("ui.create.cancel_button")}
                                         </Button>
                                     </div>
 
@@ -398,7 +425,7 @@ export function UserForm({ initialData, page, perPage }: UserFormProps) {
                                             <div>
                                                 <Button type="submit" disabled={!canSubmit} className="bg-blue-500 text-white">
                                                     <Save className="mr-2" />
-                                                    {isSubmitting ? "Guardando..." : initialData ? "Actualizar" : "Guardar"}
+                                                    {isSubmitting ? t("ui.create.saving") : initialData ? t("ui.create.save_button") : t("ui.create.save_button")}
                                                 </Button>
                                             </div>
                                         )}

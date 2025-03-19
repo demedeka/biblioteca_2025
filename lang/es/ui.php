@@ -115,6 +115,7 @@ return [
             'password_optional' => 'Contraseña (opcional)',
             'created_at' => 'Fecha de creación',
             'actions' => 'Acciones',
+            'description' => 'Description'
         ],
         'columns' => [
             'name' => 'Nombre',
@@ -160,6 +161,63 @@ return [
         'pagination' => [
             'previous' => 'Anterior',
             'next' => 'Siguiente',
+        ],
+    ],
+    'create' => [
+        'title' => 'Create User',
+        'description' => 'Crear nuevo usuario',
+        'roles' => [ 'administrator' => 'Administrador',
+        'user' => 'Usuario',
+        'visualizer' => 'Visualizador'
+        ],
+        'validating' => 'Validando...',
+        'saving' => 'Guardando...',
+        'retry' => 'Reintentar',
+        'header3' => 'Ingresa la informacion para crear un usuario nuevo en el sistema',
+        'basic_information' => 'Información Básica',
+        'roles_and_permissions' => 'Roles y permisos',
+        'name' => 'Nombre',
+        'email' => 'Correo Electrónico',
+        'password' => 'Contraseña',
+        'create_new_user_text' => 'Crear un nuevo usuario',
+        'fullNameUser_ph' => 'Nombre completo del usuario',
+        'emailUser_ph' => 'correo@ejemplo.com',
+        'passwordUser_ph' => 'Contraseña segura',
+        'optional_password' => 'Contraseña (opcional)',
+        'password_requirements' => ' La contraseña debe tener al menos 8 caracteres, incluyendo letras y números',
+        'cancel_button' => 'Cancelar',
+        'save_button' => 'Guardar',
+        'cardTitle' => 'Roles y permisos',
+        'role_description' => 'El rol determina el nivel de acceso general del usuario',
+        'specific_permissions' => 'Permisos específicos'
+    ],
+    'roles_and_permissions' => [
+        'cardTitle' => 'Roles y permisos',
+        'label_Principal_Role' => 'Rol principal',
+        'select_role' => 'Seleccionar rol',
+        'products_map' => 'Productos',
+        'crud' => [ 
+            'read' => 'Ver productos',
+            'create' => 'Crear producto',
+            'delete' => 'Borrar producto',
+            'update' => 'Editar producto'
+        ],
+        'reports_map' => 'Reportes',
+        'report_checkboxs' => [ 'view_reports' => 'Ver reportes',
+        'export_reports' => 'Exportar reportes',
+        'print_reports' => 'Imprimir reportes'
+        ],
+        'users_map' => 'Usuarios',
+        'users_crud' => [ 
+                'read' => 'Ver usuarios',
+                'create' => 'Crear usuarios',
+                'delete' => 'Borrar usuarios',
+                'update' => 'Editar usuarios'
+        ],
+        'config_map' => 'Configuración',
+        'config_checkboxs' => [
+            'config_access' => 'Acceso a configuración',
+            'config_modify' => 'Modificar configuración',
         ],
     ],
 ];
